@@ -1,0 +1,8 @@
+/libspecs/
+/log.html
+/report.html
+/output.xml
+/*.png
+/.project
+/libspecs
+/geckodriver.log

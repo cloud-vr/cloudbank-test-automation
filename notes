@@ -1,0 +1,1 @@
+all assertions should be accompanied with a detailed error message in case of failure as sometimes robotframework error message is insufficient
