@@ -2,7 +2,7 @@
 Resource    ../resources/keywords.robot
 Suite Setup    Launch Cloud Bank and Login    tester    password@1234         
 Suite Teardown    Logout
-Test Setup    Click Element    ${cloudbank_logo}
+Test Setup    Click Element    ${Sidebar.CloudBank.Logo.Link}
 
 
 *** Variables ***
@@ -10,20 +10,20 @@ ${errors}    xpath=//*[@class='errorlist']/li
 
 *** Test Cases ***
 Profile Check
-    Click Element    ${profile}    
-    Click Element    ${profile_profile}       
-    Element Attribute Value Should Be    ${form_username}    value    tester    
+    Click Element    ${Topbar.Profile.ProfileIcon.Link}    
+    Click Element    ${Topbar.Profile.ProfileLink.Link}       
+    Element Attribute Value Should Be    ${Form.SystemUser.Username.Txt}    value    tester    
     
 Negative Scenario - Blank Fields
     Create System User    ${EMPTY}    ${EMPTY}    ${EMPTY}
-    ${element}    Get WebElement    ${form_username}
+    ${element}    Get WebElement    ${Form.SystemUser.Username.Txt}
     ${validationMessage}    Get Element Attribute    ${element}    validationMessage
     Run Keyword And Continue On Failure    Should Be Equal    ${validationMessage}    Please fill out this field.
     Run Keyword And Continue On Failure    Page Should Contain Element    //h1[contains(text(),'Create System User')]
     
 Negative Scenario - Password Confirmation Empty
     Create System User    tester2    password@1234    ${EMPTY}
-    ${element}    Get WebElement    ${form_password_confirmation}
+    ${element}    Get WebElement    ${Form.SystemUser.PasswordConfirmation.Txt}
     ${validationMessage}    Get Element Attribute    ${element}    validationMessage
     Run Keyword And Continue On Failure    Should Be Equal    ${validationMessage}    Please fill out this field.
     Run Keyword And Continue On Failure    Page Should Contain Element    //h1[contains(text(),'Create System User')]
@@ -100,13 +100,13 @@ Negative Scenario - Existing User
 View
     &{row}    Create Dictionary
     ...    Username:=tester2
-    Click Element    ${navlink_system_users_collapsed}
-    Wait Until Element Is Visible    ${navlink_system_users_list}    
-    Click Element    ${navlink_system_users_list}  
-    ${index}    Table Keyword    ${table_in_list_page}    ${row}
-    Click Element    ${table_in_list_page}/tbody/tr[${index}]/td[1]/a 
-    Element Attribute Value Should Be    ${form_username}    value    tester2  
-    Click Element    ${form_btn_back_to_list}
+    Click Element    ${Sidebar.StaticData.SystemUsers.Link}
+    Wait Until Element Is Visible    ${Sidebar.StaticData.SystemUserList.Link}    
+    Click Element    ${Sidebar.StaticData.SystemUserList.Link}  
+    ${index}    Table Keyword    ${Page.Common.ObjectListTable.Tbl}    ${row}
+    Click Element    ${Page.Common.ObjectListTable.Tbl}/tbody/tr[${index}]/td[1]/a 
+    Element Attribute Value Should Be    ${Form.SystemUser.Username.Txt}    value    tester2  
+    Click Element    ${Form.Common.BackToList.Btn}
     
 Update
     &{row}    Create Dictionary
@@ -114,19 +114,19 @@ Update
     Update System User    ${row}    i_username=tester2_updated    i_password=password@1234    i_password_confirmation=password@1234
     Page Should Contain Element    //h1[contains(text(),'System User List')]   
     Set To Dictionary    ${row}    Username:=tester2_updated
-    ${index}    Table Keyword    ${table_in_list_page}    ${row}
-    Click Element    ${table_in_list_page}/tbody/tr[${index}]/td[1]/a
-    Element Attribute Value Should Be    ${form_username}    value    tester2_updated  
-    Click Element    ${form_btn_back_to_list}
+    ${index}    Table Keyword    ${Page.Common.ObjectListTable.Tbl}    ${row}
+    Click Element    ${Page.Common.ObjectListTable.Tbl}/tbody/tr[${index}]/td[1]/a
+    Element Attribute Value Should Be    ${Form.SystemUser.Username.Txt}    value    tester2_updated  
+    Click Element    ${Form.Common.BackToList.Btn}
     
 Delete
     &{row}    Create Dictionary
     ...    Username:=tester2_updated    
-    Click Element    ${navlink_system_users_collapsed}
-    Wait Until Element Is Visible    ${navlink_system_users_list}    
-    Click Element    ${navlink_system_users_list}                 
-    ${index}    Table Keyword    ${table_in_list_page}    ${row}
-    Click Element    ${table_in_list_page}/tbody/tr[${index}]/td[1]/a 
-    Click Element    ${form_btn_delete}    
-    Click Element    ${form_btn_confirm_delete_yes}    
+    Click Element    ${Sidebar.StaticData.SystemUsers.Link}
+    Wait Until Element Is Visible    ${Sidebar.StaticData.SystemUserList.Link}    
+    Click Element    ${Sidebar.StaticData.SystemUserList.Link}                 
+    ${index}    Table Keyword    ${Page.Common.ObjectListTable.Tbl}    ${row}
+    Click Element    ${Page.Common.ObjectListTable.Tbl}/tbody/tr[${index}]/td[1]/a 
+    Click Element    ${Form.Common.Delete.Btn}    
+    Click Element    ${Page.DeleteConfirmation.YesImSure.Btn}    
     Page Should Contain Element    //h1[contains(text(),'System User List')] 

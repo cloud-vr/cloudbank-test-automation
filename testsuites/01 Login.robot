@@ -6,19 +6,19 @@ Suite Teardown    Logout
 *** Test Cases ***
 Empty Username and Password
     Input Username and Password Then Click Login    ${EMPTY}    ${EMPTY}
-    ${element}    Get WebElement    ${username}
+    ${element}    Get WebElement    ${Page.Login.Username.Txt}
     ${validationMessage}    Get Element Attribute    ${element}    validationMessage
     Run Keyword And Continue On Failure    Should Be Equal    ${validationMessage}    Please fill out this field.
 
 Empty Username
     Input Username and Password Then Click Login    ${EMPTY}    password
-        ${element}    Get WebElement    ${username}
+        ${element}    Get WebElement    ${Page.Login.Username.Txt}
     ${validationMessage}    Get Element Attribute    ${element}    validationMessage
     Run Keyword And Continue On Failure    Should Be Equal    ${validationMessage}    Please fill out this field.
 
 Empty Password
     Input Username and Password Then Click Login    username    ${EMPTY}
-        ${element}    Get WebElement    ${password}
+        ${element}    Get WebElement    ${Page.Login.Password.Txt}
     ${validationMessage}    Get Element Attribute    ${element}    validationMessage
     Run Keyword And Continue On Failure    Should Be Equal    ${validationMessage}    Please fill out this field.
 
