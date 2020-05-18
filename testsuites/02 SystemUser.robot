@@ -1,6 +1,6 @@
 *** Settings ***
 Resource    ../resources/keywords.robot
-Suite Setup    Launch Cloud Bank and Login    tester    password@1234         
+Suite Setup    GoTo Cloud Bank Page and Login    tester    password@1234         
 Suite Teardown    Logout
 Test Setup    Click Element    ${Sidebar.CloudBank.Logo.Link}
 
@@ -98,35 +98,18 @@ Negative Scenario - Existing User
     Page Should Contain Element    //h1[contains(text(),'Create System User')]
     
 View
-    &{row}    Create Dictionary
+    &{i_row}    Create Dictionary
     ...    Username:=tester2
-    Click Element    ${Sidebar.StaticData.SystemUsers.Link}
-    Wait Until Element Is Visible    ${Sidebar.StaticData.SystemUserList.Link}    
-    Click Element    ${Sidebar.StaticData.SystemUserList.Link}  
-    ${index}    Table Keyword    ${Page.Common.ObjectListTable.Tbl}    ${row}
-    Click Element    ${Page.Common.ObjectListTable.Tbl}/tbody/tr[${index}]/td[1]/a 
-    Element Attribute Value Should Be    ${Form.SystemUser.Username.Txt}    value    tester2  
-    Click Element    ${Form.Common.BackToList.Btn}
+    View System User   ${i_row}    tester2    
     
 Update
-    &{row}    Create Dictionary
+    &{i_row}    Create Dictionary
     ...    Username:=tester2               
-    Update System User    ${row}    i_username=tester2_updated    i_password=password@1234    i_password_confirmation=password@1234
-    Page Should Contain Element    //h1[contains(text(),'System User List')]   
-    Set To Dictionary    ${row}    Username:=tester2_updated
-    ${index}    Table Keyword    ${Page.Common.ObjectListTable.Tbl}    ${row}
-    Click Element    ${Page.Common.ObjectListTable.Tbl}/tbody/tr[${index}]/td[1]/a
-    Element Attribute Value Should Be    ${Form.SystemUser.Username.Txt}    value    tester2_updated  
-    Click Element    ${Form.Common.BackToList.Btn}
+    Update System User    ${i_row}    i_username=tester2_updated    i_password=password@1234    i_password_confirmation=password@1234
     
 Delete
-    &{row}    Create Dictionary
+    &{i_row}    Create Dictionary
     ...    Username:=tester2_updated    
-    Click Element    ${Sidebar.StaticData.SystemUsers.Link}
-    Wait Until Element Is Visible    ${Sidebar.StaticData.SystemUserList.Link}    
-    Click Element    ${Sidebar.StaticData.SystemUserList.Link}                 
-    ${index}    Table Keyword    ${Page.Common.ObjectListTable.Tbl}    ${row}
-    Click Element    ${Page.Common.ObjectListTable.Tbl}/tbody/tr[${index}]/td[1]/a 
-    Click Element    ${Form.Common.Delete.Btn}    
-    Click Element    ${Page.DeleteConfirmation.YesImSure.Btn}    
-    Page Should Contain Element    //h1[contains(text(),'System User List')] 
+    Delete System User    ${i_row}   
+    Page Should Contain Element    //h1[contains(text(),'System User List')]
+    
