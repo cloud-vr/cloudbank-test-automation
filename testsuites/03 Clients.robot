@@ -1,6 +1,6 @@
 *** Settings ***
 Resource    ../resources/keywords.robot
-Suite Setup    Launch Cloud Bank and Login    tester    password@1234         
+Suite Setup    GoTo Cloud Bank Page and Login    tester    password@1234         
 Suite Teardown    Logout
 Test Setup    Click Element    ${Sidebar.CloudBank.Logo.Link}    
 
@@ -9,7 +9,7 @@ ${errors}    xpath=//*[@class='errorlist']/li
 
 *** Test Cases ***
 Negative Scenario - Blank Fields
-    Create Client    \    \    \    \    \
+    Create Client    ${EMPTY}    ${EMPTY}    ${EMPTY}    ${EMPTY}    ${EMPTY}
     ${element}    Get WebElement    ${Form.Client.FirstName.Txt}
     ${validationMessage}    Get Element Attribute    ${element}    validationMessage
     Run Keyword And Continue On Failure    Should Be Equal    ${validationMessage}    Please fill out this field.
@@ -29,42 +29,24 @@ Negative Scenario - Existing Client
     END 
     
 View
-    &{row}    Create Dictionary
+    &{l_row}    Create Dictionary
     ...    First Name:=Yuffie
     ...    Last Name:=Kisaragi
-    ...    Email Address:=yuffie@kisaragi.com 
-    Click Element    ${Sidebar.StaticData.Clients.Link}
-    Wait Until Element Is Visible    ${Sidebar.StaticData.ClientList.Link}    
-    Click Element    ${Sidebar.StaticData.ClientList.Link}  
-    ${index}    Table Keyword    ${Page.Common.ObjectListTable.Tbl}    ${row}
-    Click Element    ${Page.Common.ObjectListTable.Tbl}/tbody/tr[${index}]/td[1]/a 
-    Element Attribute Value Should Be    ${Form.Client.EmailAddress.Txt}    value    yuffie@kisaragi.com  
-    Click Element    ${Form.Common.BackToList.Btn}
+    ...    Email Address:=yuffie@kisaragi.com
+    View Client    ${l_row}    i_fname=Yuffie    i_lname=Kisaragi    i_addr=Wutai    i_mobile=4    i_email_addr=yuffie@kisaragi.com        
                  
 Update
     &{row}    Create Dictionary
     ...    First Name:=Yuffie
     ...    Last Name:=Kisaragi
     ...    Email Address:=yuffie@kisaragi.com                
-    Update Client    ${row}    i_mobile=69 
-    ${index}    Table Keyword    ${Page.Common.ObjectListTable.Tbl}    ${row}
-    Click Element    ${Page.Common.ObjectListTable.Tbl}/tbody/tr[${index}]/td[1]/a 
-    Element Attribute Value Should Be    ${Form.Client.MobileNumber.Txt}    value    69  
-    Click Element    ${Form.Common.BackToList.Btn}
-
+    Update Client    ${row}    i_fname=Yuffie    i_lname=Kisaragi    i_mobile=69    i_email_addr=yuffie@kisaragi.com  
     
 Delete
-    &{row}    Create Dictionary
+    &{l_row}    Create Dictionary
     ...    First Name:=Yuffie
     ...    Last Name:=Kisaragi
     ...    Email Address:=yuffie@kisaragi.com  
-    Click Element    ${Sidebar.StaticData.Clients.Link}
-    Wait Until Element Is Visible    ${Sidebar.StaticData.ClientList.Link}    
-    Click Element    ${Sidebar.StaticData.ClientList.Link}                 
-    ${index}    Table Keyword    ${Page.Common.ObjectListTable.Tbl}    ${row}
-    Click Element    ${Page.Common.ObjectListTable.Tbl}/tbody/tr[${index}]/td[1]/a 
-    Click Element    ${Form.Common.Delete.Btn}    
-    Click Element    ${Page.DeleteConfirmation.YesImSure.Btn}    
-    Page Should Contain Element    //h1[contains(text(),'Client List')]
+    Delete Client    ${l_row}
     # create client again because it is needed for the transactions
     Create Client    Yuffie    Kisaragi    Wutai    4    yuffie@kisaragi.com

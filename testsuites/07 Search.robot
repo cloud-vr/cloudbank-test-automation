@@ -1,6 +1,6 @@
 *** Settings ***
 Resource    ../resources/keywords.robot
-Suite Setup    Launch Cloud Bank and Login    tester    password@1234         
+Suite Setup    GoTo Cloud Bank Page and Login    tester    password@1234         
 Suite Teardown    Logout
 Test Setup    Click Element    ${Sidebar.CloudBank.Logo.Link}    
 

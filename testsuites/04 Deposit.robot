@@ -1,12 +1,15 @@
 *** Settings ***
 Resource    ../resources/keywords.robot
-Suite Setup    Launch Cloud Bank and Login    tester    password@1234         
+Suite Setup    GoTo Cloud Bank Page and Login    tester    password@1234         
 Suite Teardown    Logout
 Test Setup    Click Element    ${Sidebar.CloudBank.Logo.Link}    
 
+*** Variables ***
+${s_deposit_trx_ref}
+
 *** Test Cases ***
 Negative Scenario - Blank Fields
-    New Deposit    ---------    \
+    Create Deposit Transaction    ---------    ${EMPTY}
     ${element}    Get WebElement    ${Form.DepositTransaction.Client.Cbo}
     ${validationMessage}    Get Element Attribute    ${element}    validationMessage
     Run Keyword And Continue On Failure    Should Be Equal    ${validationMessage}    Please select an item in the list.
@@ -36,7 +39,8 @@ Positive Scenario - All Field Populated
     ${initial_balance}    Get Table Cell    ${Page.Common.ObjectListTable.Tbl}    ${row_index+1}    ${col_index}  
     ${initial_balance}    Convert To Number    ${initial_balance}             
     # Deposit Transaction  
-    New Deposit    Yuffie Kisaragi    1000
+    ${l_trx_ref}    Create Deposit Transaction    Yuffie Kisaragi    1000
+    Set Suite Variable    ${s_deposit_trx_ref}    ${l_trx_ref}
     Page Should Contain Element    //h1[contains(text(),'Deposit Transaction List')]
     # Dashboard Post Values
     Click Element    ${Sidebar.CloudBank.Dashboard.Link}
@@ -56,15 +60,6 @@ Positive Scenario - All Field Populated
     Should Be Equal    ${initial_balance+1000}    ${post_balance}     
     
 View
-    Click Element    ${Sidebar.Transactions.Deposit.Link}    
-    Wait Until Element Is Visible    ${Sidebar.Transactions.DepositTransactionList.Link}    
-    Click Element    ${Sidebar.Transactions.DepositTransactionList.Link}
-    Click Element    ${Page.Common.ObjectListTable.Tbl}/tbody/tr[1]/td[1]/a
-    Element Should Be Disabled    ${Form.DepositTransaction.TrxDate.Txt}
-    Element Should Be Disabled    ${Form.DepositTransaction.TrxRef.Txt}
-    Element Should Be Disabled    ${Form.DepositTransaction.Status.Txt}
-    Element Should Be Disabled    ${Form.DepositTransaction.Currency.Txt}
-    Element Should Be Disabled    ${Form.DepositTransaction.Client.Cbo}   
-    Element Should Be Disabled    ${Form.DepositTransaction.DepositAmount.Txt}  
-    Click Element    ${Form.Common.BackToList.Btn}      
+    &{l_row}    Create Dictionary    Trx ref:=${s_deposit_trx_ref}
+    View Deposit Transaction    ${l_row}    i_client=Yuffie Kisaragi    i_amt=1000.0     
     

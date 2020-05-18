@@ -1,12 +1,15 @@
 *** Settings ***
 Resource    ../resources/keywords.robot
-Suite Setup    Launch Cloud Bank and Login    tester    password@1234         
+Suite Setup    GoTo Cloud Bank Page and Login    tester    password@1234         
 Suite Teardown    Logout
 Test Setup    Click Element    ${Sidebar.CloudBank.Logo.Link}    
 
+*** Variables ***
+${s_withdraw_trx_ref}
+
 *** Test Cases ***
 Negative Scenario - Blank Fields
-    New Withdraw    ---------    \
+    Create Withdraw Transaction    ---------    ${EMPTY}
     ${element}    Get WebElement    ${Form.WithdrawTransaction.Client.Cbo}
     ${validationMessage}    Get Element Attribute    ${element}    validationMessage
     Run Keyword And Continue On Failure    Should Be Equal    ${validationMessage}    Please select an item in the list.
@@ -36,7 +39,8 @@ Positive Scenario - All Field Populated
     ${initial_balance}    Get Table Cell    ${Page.Common.ObjectListTable.Tbl}    ${row_index+1}    ${col_index}  
     ${initial_balance}    Convert To Number    ${initial_balance}
     # Withdraw
-    New Withdraw    Yuffie Kisaragi    100
+    ${l_trx_ref}    Create Withdraw Transaction    Yuffie Kisaragi    100
+    Set Suite Variable    ${s_withdraw_trx_ref}    ${l_trx_ref}
     Page Should Contain Element    //h1[contains(text(),'Withdraw Transaction List')]       
     # Dashboard Post Values
     Click Element    ${Sidebar.CloudBank.Dashboard.Link}
@@ -56,14 +60,6 @@ Positive Scenario - All Field Populated
     Should Be Equal    ${initial_balance-100}    ${post_balance} 
     
 View
-    Click Element    ${Sidebar.Transactions.Withdraw.Link}    
-    Wait Until Element Is Visible    ${Sidebar.Transactions.WithdrawTransactionList.Link}    
-    Click Element    ${Sidebar.Transactions.WithdrawTransactionList.Link}
-    Click Element    ${Page.Common.ObjectListTable.Tbl}/tbody/tr[1]/td[1]/a  
-    Element Should Be Disabled    ${Form.WithdrawTransaction.TrxDate.Txt}
-    Element Should Be Disabled    ${Form.WithdrawTransaction.TrxRef.Txt}
-    Element Should Be Disabled    ${Form.WithdrawTransaction.Status.Txt}
-    Element Should Be Disabled    ${Form.WithdrawTransaction.Currency.Txt}
-    Element Should Be Disabled    ${Form.WithdrawTransaction.Client.Cbo}
-    Element Should Be Disabled    ${Form.WithdrawTransaction.WithdrawAmount.Txt}  
-    Click Element    ${Form.Common.BackToList.Btn} 
+    &{l_row}    Create Dictionary    Trx ref:=${s_withdraw_trx_ref}
+    View Withdraw Transaction    ${l_row}    i_client=Yuffie Kisaragi    i_amt=100.0
+    

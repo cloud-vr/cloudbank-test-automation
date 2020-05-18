@@ -1,13 +1,16 @@
 *** Settings ***
 Resource    ../resources/keywords.robot
-Suite Setup    Launch Cloud Bank and Login    tester    password@1234         
+Suite Setup    GoTo Cloud Bank Page and Login    tester    password@1234         
 Suite Teardown    Logout
 Test Setup    Click Element    ${Sidebar.CloudBank.Logo.Link}    
 
+*** Variables ***
+${s_transfer_trx_ref}
+
 *** Test Cases ***
 Negative Scenario - Blank Fields
-    New Transfer    ---------    ---------    \
-    ${element}    Get WebElement    ${Form.TransferTransaction.Status.Txt}
+    Create Transfer Transaction    ---------    ---------    ${EMPTY}
+    ${element}    Get WebElement    ${Form.TransferTransaction.FromClient.Cbo}        
     ${validationMessage}    Get Element Attribute    ${element}    validationMessage
     Run Keyword And Continue On Failure    Should Be Equal    ${validationMessage}    Please select an item in the list.
     Run Keyword And Continue On Failure    Page Should Contain Element    ${Form.WithdrawTransaction.TrxDate.Txt}     
@@ -42,7 +45,8 @@ Positive Scenario - All Field Populated
     ${to_client_initial_balance}    Get Table Cell    ${Page.Common.ObjectListTable.Tbl}    ${to_client_row_index+1}    ${col_index}  
     ${to_client_initial_balance}    Convert To Number    ${to_client_initial_balance}    
     # Transfer
-    New Transfer    Yuffie Kisaragi    Cloud Strife    100
+    ${l_trx_ref}    Create Transfer Transaction    Yuffie Kisaragi    Cloud Strife    100
+    Set Suite Variable    ${s_transfer_trx_ref}    ${l_trx_ref}
     Page Should Contain Element    //h1[contains(text(),'Transfer Transaction List')]
     # Dashboard Post Values
     Click Element    ${Sidebar.CloudBank.Dashboard.Link}
@@ -66,15 +70,5 @@ Positive Scenario - All Field Populated
     Should Be Equal    ${to_client_initial_balance+100}    ${to_client_post_balance}         
 
 View
-    Click Element    ${Sidebar.Transactions.Transfer.Link}    
-    Wait Until Element Is Visible    ${Sidebar.Transactions.TransferTransactionList.Link}    
-    Click Element    ${Sidebar.Transactions.TransferTransactionList.Link}
-    Click Element    ${Page.Common.ObjectListTable.Tbl}/tbody/tr[1]/td[1]/a 
-    Element Should Be Disabled    ${Form.TransferTransaction.TrxDate.Txt}
-    Element Should Be Disabled    ${Form.TransferTransaction.TrxRef.Txt}
-    Element Should Be Disabled    ${Form.TransferTransaction.Status.Txt}
-    Element Should Be Disabled    ${Form.TransferTransaction.Currency.Txt}
-    Element Should Be Disabled    ${Form.TransferTransaction.Status.Txt}
-    Element Should Be Disabled    ${Form.TransferTransaction.Status.Txt}
-    Element Should Be Disabled    ${Form.TransferTransaction.FromClient.Cbo}
-    Click Element    ${Form.Common.BackToList.Btn} 
+    &{l_row}    Create Dictionary    Trx ref:=${s_transfer_trx_ref}
+    View Transfer Transaction    ${l_row}    i_from_client=Yuffie Kisaragi    i_to_client=Cloud Strife    i_amt=100.0  
