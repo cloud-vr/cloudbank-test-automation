@@ -24,6 +24,35 @@ GoTo Cloud Bank Page and Login
     Form Login Populate Fields    ${i_username}    ${i_password}
     Click Button    ${Page.Login.Login.Btn}
 
+# Dashboard Keywords
+GoTo Dashboard
+    Click Element    ${Sidebar.CloudBank.Dashboard.Link}
+    @{args}    Create List    //h1[contains(text(),'Dashboard')]
+    VERIFY    Page Should Contain Element    ${args}        
+
+Get Dashboard Aggregate Deposit Value
+    ${l_amount_txt}    Get Text    ${Page.Dashboard.AggregateDeposit.Lbl}
+    ${l_amount_txt}    Remove String    ${l_amount_txt}     PHP
+    ${l_amount_txt}    Convert To Number    ${l_amount_txt}
+    [Return]    ${l_amount_txt} 
+
+Get Dashboard Aggregate Withdraw Value
+    ${l_amount_txt}    Get Text    ${Page.Dashboard.AggregateWithdraw.Lbl}
+    ${l_amount_txt}    Remove String    ${l_amount_txt}     PHP
+    ${l_amount_txt}    Convert To Number    ${l_amount_txt}
+    [Return]    ${l_amount_txt}
+
+Get Dashboard Aggregate Transfer Value
+    ${l_amount_txt}    Get Text    ${Page.Dashboard.AggregateTransfer.Lbl}
+    ${l_amount_txt}    Remove String    ${l_amount_txt}     PHP
+    ${l_amount_txt}    Convert To Number    ${l_amount_txt}
+    [Return]    ${l_amount_txt}
+
+Get Dashboard Number Of Transactions Value
+    ${l_number_of_trx}    Get Text    ${Page.Dashboard.NumberOfTransactions.Lbl}
+    ${l_number_of_trx}    Convert To Number    ${l_number_of_trx}    
+    [Return]    ${l_number_of_trx} 
+    
 # System User Keywords
 GoTo Create System User Form
     Click Element    ${Sidebar.StaticData.SystemUsers.Link}      
@@ -82,11 +111,14 @@ GoTo Create Client Form
     Wait Until Element Is Visible    ${Sidebar.StaticData.NewClient.Link}    
     Click Element    ${Sidebar.StaticData.NewClient.Link}
 
-GoTo View/Update/Delete Client Form
-    [Arguments]    ${i_row}
+GoTo Client List Page
     Click Element    ${Sidebar.StaticData.Clients.Link}
     Wait Until Element Is Visible    ${Sidebar.StaticData.ClientList.Link}    
     Click Element    ${Sidebar.StaticData.ClientList.Link} 
+
+GoTo View/Update/Delete Client Form
+    [Arguments]    ${i_row}
+    GoTo Client List Page
     ${l_index}    Table Keyword    ${Page.Common.ObjectListTable.Tbl}    ${i_row}
     Click Element    ${Page.Common.ObjectListTable.Tbl}/tbody/tr[${l_index}]/td[1]/a
 
@@ -352,4 +384,27 @@ Handle Row
         ${row_found}    Set Variable If    ${row_item_found}==${True}    ${True}    ${False}
         Exit For Loop If    '${row_item_found}'=='False'
     END
-    [Return]    ${row_found}      
+    [Return]    ${row_found}
+
+Get Validation Message
+    [Arguments]    ${i_element}
+    ${l_element}    Get WebElement    ${i_element}
+    ${validationMessage}    Get Element Attribute    ${l_element}    validationMessage
+    [Return]    ${validationMessage}
+
+VERIFY
+    [Arguments]    ${i_assertion_keyword}    ${i_args}    ${i_assertion_type}=1    ${i_pass_message}=${EMPTY}    ${i_fail_message}=${EMPTY}
+    ${l_test_status}    ${l_test_message}    Run Keyword And Ignore Error    ${i_assertion_keyword}    @{i_args}  
+
+    ${i_pass_message}    Set Variable If    '${i_pass_message}'=='${EMPTY}'    ${EMPTY}    > ${i_pass_message}\n
+    Run Keyword If    '${l_test_status}'=='PASS'    Run Keywords
+    ...    Set Test Message    ${i_pass_message}    append=yes
+    ...    AND
+    ...    Return From Keyword    ${l_test_status}   
+
+    # Actions if test fails    
+    ${i_fail_message}    Set Variable If    '${i_fail_message}'=='${EMPTY}'    ${l_test_message}    ${i_fail_message}            
+    Run Keyword If    ${i_assertion_type}==1    Fail    ${i_fail_message}    
+    ...    ELSE    Run Keyword And Continue On Failure    Fail    ${i_fail_message}       
+    [Return]    ${l_test_status}
+    

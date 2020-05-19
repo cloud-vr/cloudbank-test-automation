@@ -4,112 +4,150 @@ Suite Setup    GoTo Cloud Bank Page and Login    tester    password@1234
 Suite Teardown    Logout
 Test Setup    Click Element    ${Sidebar.CloudBank.Logo.Link}
 
-
 *** Variables ***
-${errors}    xpath=//*[@class='errorlist']/li
+${errors}    /..//*[@class='errorlist']/li
 
 *** Test Cases ***
-Profile Check
+Positive Scenario - Profile Check
     Click Element    ${Topbar.Profile.ProfileIcon.Link}    
     Click Element    ${Topbar.Profile.ProfileLink.Link}       
-    Element Attribute Value Should Be    ${Form.SystemUser.Username.Txt}    value    tester    
     
-Negative Scenario - Blank Fields
+    @{args}    Create List    ${Form.SystemUser.Username.Txt}    tester    
+    VERIFY    Textfield Value Should Be    ${args}
+    
+Negative Scenario - Blank System User Fields
     Create System User    ${EMPTY}    ${EMPTY}    ${EMPTY}
-    ${element}    Get WebElement    ${Form.SystemUser.Username.Txt}
-    ${validationMessage}    Get Element Attribute    ${element}    validationMessage
-    Run Keyword And Continue On Failure    Should Be Equal    ${validationMessage}    Please fill out this field.
-    Run Keyword And Continue On Failure    Page Should Contain Element    //h1[contains(text(),'Create System User')]
+    
+    ${l_validation_message}    Get Validation Message    ${Form.SystemUser.Username.Txt}
+
+    @{args}    Create List    ${l_validation_message}    Please fill out this field.        
+    VERIFY    Should Be Equal    ${args}    
+    ...    i_pass_message=Validation message "Please fill out this field." displayed successfully.
+    ...    i_fail_message=Validation message "Please fill out this field." not displayed successfully.
+
+    @{args}    Create List    //h1[contains(text(),'Create System User')]        
+    VERIFY    Page Should Contain Element    ${args}
+    ...    i_pass_message=User remained in the Create System User page.
+    ...    i_fail_message=User was transitioned to a different page.
     
 Negative Scenario - Password Confirmation Empty
     Create System User    tester2    password@1234    ${EMPTY}
-    ${element}    Get WebElement    ${Form.SystemUser.PasswordConfirmation.Txt}
-    ${validationMessage}    Get Element Attribute    ${element}    validationMessage
-    Run Keyword And Continue On Failure    Should Be Equal    ${validationMessage}    Please fill out this field.
-    Run Keyword And Continue On Failure    Page Should Contain Element    //h1[contains(text(),'Create System User')]
+    
+    ${l_validation_message}    Get Validation Message    ${Form.SystemUser.PasswordConfirmation.Txt}
+
+    @{args}    Create List    ${l_validation_message}    Please fill out this field.        
+    VERIFY    Should Be Equal    ${args}    
+    ...    i_pass_message=Validation message "Please fill out this field." displayed successfully.
+    ...    i_fail_message=Validation message "Please fill out this field." not displayed successfully.    
+
+    @{args}    Create List    //h1[contains(text(),'Create System User')]        
+    VERIFY    Page Should Contain Element    ${args}
+    ...    i_pass_message=User remained in the Create System User page.
+    ...    i_fail_message=User was transitioned to a different page.
 
 Negative Scenario - Username = Password
     Create System User    testuser    testuser    testuser
-    ${elements}    Get WebElements    ${errors}
-    ${is_expected_error_found}    Set Variable    ${True}
-    FOR    ${element}    IN    @{elements}
-        ${is_expected_error_found}    Run Keyword And Return Status    Element Should Contain    ${element}    The password is too similar to the username.
-        Exit For Loop If    ${is_expected_error_found}==True 
-    END
-    Run Keyword And Continue On Failure    Should Be Equal    ${is_expected_error_found}    ${True}    Expected error message not found        
-    Run Keyword And Continue On Failure    Page Should Contain Element    //h1[contains(text(),'Create System User')]
+    
+    @{args}    Create List    ${Form.SystemUser.PasswordConfirmation.Txt}${errors}    The password is too similar to the username.
+    VERIFY    Element Should Contain    ${args}
+    ...    i_pass_message=Expected error message was displayed.
+    ...    i_fail_message=Expected error message not displayed. 
+        
+    @{args}    Create List   //h1[contains(text(),'Create System User')]
+    VERIFY    Page Should Contain Element    ${args}     
+    ...    i_pass_message=User remained in the Create System User page.
+    ...    i_fail_message=User was transitioned to a different page.  
 
 Negative Scenario - Password Less Than 8 characters
     Create System User    testeruser    qwertyu    qwertyu
-    ${elements}    Get WebElements    ${errors}
-    ${is_expected_error_found}    Set Variable    ${True}
-    FOR    ${element}    IN    @{elements}
-        ${is_expected_error_found}    Run Keyword And Return Status    Element Should Contain    ${element}    This password is too short. It must contain at least 8 characters.  
-        Exit For Loop If    ${is_expected_error_found}==True 
-    END
-    Run Keyword And Continue On Failure    Should Be Equal    ${is_expected_error_found}    ${True}    Expected error message not found 
-    Run Keyword And Continue On Failure    Page Should Contain Element    //h1[contains(text(),'Create System User')]
+    
+    @{args}    Create List    ${Form.SystemUser.PasswordConfirmation.Txt}${errors}    This password is too short. It must contain at least 8 characters.
+    VERIFY    Element Should Contain    ${args}
+    ...    i_pass_message=Expected error message was displayed.
+    ...    i_fail_message=Expected error message not displayed. 
+    
+    @{args}    Create List   //h1[contains(text(),'Create System User')]
+    VERIFY    Page Should Contain Element    ${args}     
+    ...    i_pass_message=User remained in the Create System User page.
+    ...    i_fail_message=User was transitioned to a different page.  
         
 Negative Scenario - Password is too common
     Create System User    testeruser    password    password
-    ${elements}    Get WebElements    ${errors}
-    ${is_expected_error_found}    Set Variable    ${True}
-    FOR    ${element}    IN    @{elements}
-        ${is_expected_error_found}    Run Keyword And Return Status    Element Should Contain    ${element}    This password is too common.  
-        Exit For Loop If    ${is_expected_error_found}==True 
-    END
-    Run Keyword And Continue On Failure    Should Be Equal    ${is_expected_error_found}    ${True}    Expected error message not found
-    Run Keyword And Continue On Failure    Page Should Contain Element    //h1[contains(text(),'Create System User')]
+    
+    @{args}    Create List    ${Form.SystemUser.PasswordConfirmation.Txt}${errors}    This password is too common.
+    VERIFY    Element Should Contain    ${args}
+    ...    i_pass_message=Expected error message was displayed.
+    ...    i_fail_message=Expected error message not displayed. 
+    
+    @{args}    Create List   //h1[contains(text(),'Create System User')]
+    VERIFY    Page Should Contain Element    ${args}     
+    ...    i_pass_message=User remained in the Create System User page.
+    ...    i_fail_message=User was transitioned to a different page.
     
 Negative Scenario - Password is entirely numeric
-    Create System User    testeruser    1234567890    1234567890
-    ${elements}    Get WebElements    ${errors}
-    ${is_expected_error_found}    Set Variable    ${True}
-    FOR    ${element}    IN    @{elements}
-        ${is_expected_error_found}    Run Keyword And Return Status    Element Should Contain    ${element}    This password is entirely numeric.  
-        Exit For Loop If    ${is_expected_error_found}==True 
-    END
-    Run Keyword And Continue On Failure    Should Be Equal    ${is_expected_error_found}    ${True}    Expected error message not found
-    Run Keyword And Continue On Failure    Page Should Contain Element    //h1[contains(text(),'Create System User')]
+    Create System User    testeruser    00666066600    00666066600
+
+    @{args}    Create List    ${Form.SystemUser.PasswordConfirmation.Txt}${errors}    This password is entirely numeric.  
+    VERIFY    Element Should Contain    ${args}
+    ...    i_pass_message=Expected error message was displayed.
+    ...    i_fail_message=Expected error message not displayed. 
+    
+    @{args}    Create List   //h1[contains(text(),'Create System User')]
+    VERIFY    Page Should Contain Element    ${args}     
+    ...    i_pass_message=User remained in the Create System User page.
+    ...    i_fail_message=User was transitioned to a different page.
     
 Negative Scenario - Password and Password confirmtion does not match
     Create System User    testeruser    password@1234    password@12345
-    ${elements}    Get WebElements    ${errors}
-    ${is_expected_error_found}    Set Variable    ${True}
-    FOR    ${element}    IN    @{elements}
-        ${is_expected_error_found}    Run Keyword And Return Status    Element Should Contain    ${element}    The two password fields didn’t match.
-        Exit For Loop If    ${is_expected_error_found}==True 
-    END
-    Run Keyword And Continue On Failure    Should Be Equal    ${is_expected_error_found}    ${True}    Expected error message not found
-    Run Keyword And Continue On Failure    Page Should Contain Element    //h1[contains(text(),'Create System User')]
+
+    @{args}    Create List    ${Form.SystemUser.PasswordConfirmation.Txt}${errors}    The two password fields didn’t match. 
+    VERIFY    Element Should Contain    ${args}
+    ...    i_pass_message=Expected error message was displayed.
+    ...    i_fail_message=Expected error message not displayed. 
     
-Positive Scenario
+    @{args}    Create List   //h1[contains(text(),'Create System User')]
+    VERIFY    Page Should Contain Element    ${args}     
+    ...    i_pass_message=User remained in the Create System User page.
+    ...    i_fail_message=User was transitioned to a different page.
+    
+Positive Scenario - Create A System User
     Create System User    tester2    password@1234    password@1234
-    Page Should Contain Element    //h1[contains(text(),'System User List')]
+    
+    @{args}    Create List   //h1[contains(text(),'System User List')]
+    VERIFY    Page Should Contain Element    ${args}     
+    ...    i_pass_message=User was transitioned to System User List page.
+    ...    i_fail_message=User was not transitioned to System User List page.
 
 Negative Scenario - Existing User
     Create System User    tester2    password@1234    password@1234
-    ${elements}    Get WebElements    ${errors}
-    ${is_expected_error_found}    Set Variable    ${True}
-    FOR    ${element}    IN    @{elements}
-        ${is_expected_error_found}    Run Keyword And Return Status    Element Should Contain    ${element}    A user with that username already exists.
-        Exit For Loop If    ${is_expected_error_found}==True 
-    END
-    Page Should Contain Element    //h1[contains(text(),'Create System User')]
     
-View
+    @{args}    Create List    ${Form.SystemUser.Username.Txt}${errors}    A user with that username already exists. 
+    VERIFY    Element Should Contain    ${args}
+    ...    i_pass_message=Expected error message was displayed.
+    ...    i_fail_message=Expected error message not displayed. 
+    
+    @{args}    Create List   //h1[contains(text(),'Create System User')]
+    VERIFY    Page Should Contain Element    ${args}     
+    ...    i_pass_message=User remained in the Create System User page.
+    ...    i_fail_message=User was transitioned to a different page.
+    
+Positive Scenario - View System User
     &{i_row}    Create Dictionary
     ...    Username:=tester2
     View System User   ${i_row}    tester2    
     
-Update
+Positive Scenario - Update System User
     &{i_row}    Create Dictionary
     ...    Username:=tester2               
     Update System User    ${i_row}    i_username=tester2_updated    i_password=password@1234    i_password_confirmation=password@1234
     
-Delete
+Positive Scenario - Delete System User
     &{i_row}    Create Dictionary
     ...    Username:=tester2_updated    
     Delete System User    ${i_row}   
-    Page Should Contain Element    //h1[contains(text(),'System User List')]
+
+    @{args}    Create List   //h1[contains(text(),'System User List')]
+    VERIFY    Page Should Contain Element    ${args}     
+    ...    i_pass_message=User was transitioned to System User List page.
+    ...    i_fail_message=User was not transitioned to System User List page.
     
