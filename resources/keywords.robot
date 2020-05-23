@@ -64,7 +64,7 @@ GoTo View/Update/Delete System User Form
     Click Element    ${Sidebar.StaticData.SystemUsers.Link}      
     Wait Until Element Is Visible    ${Sidebar.StaticData.NewSystemUser.Link}       
     Click Element    ${Sidebar.StaticData.SystemUserList.Link}
-    ${l_index}    Table Keyword    ${Page.Common.ObjectListTable.Tbl}    ${i_row}
+    ${l_index}    Find Searched Row In The Table    ${Page.Common.ObjectListTable.Tbl}    ${i_row}
     Click Element    ${Page.Common.ObjectListTable.Tbl}/tbody/tr[${l_index}]/td[1]/a
     
 Form System User Populate Fields
@@ -119,7 +119,7 @@ GoTo Client List Page
 GoTo View/Update/Delete Client Form
     [Arguments]    ${i_row}
     GoTo Client List Page
-    ${l_index}    Table Keyword    ${Page.Common.ObjectListTable.Tbl}    ${i_row}
+    ${l_index}    Find Searched Row In The Table    ${Page.Common.ObjectListTable.Tbl}    ${i_row}
     Click Element    ${Page.Common.ObjectListTable.Tbl}/tbody/tr[${l_index}]/td[1]/a
 
 Form Client Populate Fields
@@ -175,7 +175,17 @@ Delete Client
     GoTo View/Update/Delete Client Form    ${i_row}    
     Click Element    ${Form.Common.Delete.Btn}    
     Click Element    ${Page.DeleteConfirmation.YesImSure.Btn}    
-    Page Should Contain Element    //h1[contains(text(),'Client List')]   
+    Page Should Contain Element    //h1[contains(text(),'Client List')]
+    
+Get Client Balance
+    [Arguments]    ${i_client_dict}
+    &{row}    Create Dictionary    First Name:=Yuffie    Last Name:=Kisaragi
+    ${l_row_index}    Find Searched Row In The Table    ${Page.Common.ObjectListTable.Tbl}    ${i_client_dict}
+    &{l_header_dict}    Get Table Headers    ${Page.Common.ObjectListTable.Tbl}
+    ${l_col_index}    Set Variable    &{l_header_dict}[Balance:]  
+    ${l_balance}    Get Table Cell    ${Page.Common.ObjectListTable.Tbl}    ${l_row_index+1}    ${l_col_index}    # row index +1 because the table includes the header as a row  
+    ${l_balance}    Convert To Number    ${l_balance}
+    [Return]    ${l_balance}
 
 # Deposit Transaction Keywords
 GoTo Create Deposit Transaction Form
@@ -223,7 +233,7 @@ Create Deposit Transaction
 View Deposit Transaction
     [Arguments]    ${i_row}    ${i_client}=${EMPTY}    ${i_amt}=${EMPTY}  
     GoTo View Deposit Transaction Form
-    ${l_index}    Table Keyword    ${Page.Common.ObjectListTable.Tbl}    ${i_row}
+    ${l_index}    Find Searched Row In The Table    ${Page.Common.ObjectListTable.Tbl}    ${i_row}
     Click Element    ${Page.Common.ObjectListTable.Tbl}/tbody/tr[${l_index}]/td[1]/a
     Form Deposit Transaction Verify Fields    ${i_client}    ${i_amt}
     Click Element    ${Form.Common.BackToList.Btn}
@@ -274,7 +284,7 @@ Create Withdraw Transaction
 View Withdraw Transaction
     [Arguments]    ${i_row}    ${i_client}    ${i_amt}
     GoTo View Withdraw Transaction Form
-    ${l_index}    Table Keyword    ${Page.Common.ObjectListTable.Tbl}    ${i_row}
+    ${l_index}    Find Searched Row In The Table    ${Page.Common.ObjectListTable.Tbl}    ${i_row}
     Click Element    ${Page.Common.ObjectListTable.Tbl}/tbody/tr[${l_index}]/td[1]/a
     Form Withdraw Transaction Verify Fields    ${i_client}    ${i_amt}
     Click Element    ${Form.Common.BackToList.Btn}
@@ -328,7 +338,7 @@ Create Transfer Transaction
 View Transfer Transaction
     [Arguments]    ${i_row}    ${i_from_client}    ${i_to_client}    ${i_amt}
     GoTo View Transfer Transaction Form
-    ${l_index}    Table Keyword    ${Page.Common.ObjectListTable.Tbl}    ${i_row}
+    ${l_index}    Find Searched Row In The Table    ${Page.Common.ObjectListTable.Tbl}    ${i_row}
     Click Element    ${Page.Common.ObjectListTable.Tbl}/tbody/tr[${l_index}]/td[1]/a
     Form Transfer Transaction Verify Fields    ${i_from_client}    ${i_to_client}    ${i_amt}
     Click Element    ${Form.Common.BackToList.Btn}  
@@ -340,41 +350,43 @@ Logout
     Wait Until Element Is Visible    ${Popup.ReadyToLeave.Logout.Btn}      
     Click Element    ${Popup.ReadyToLeave.Logout.Btn}  
     Close Browser
-    
-Table Keyword
-    [Arguments]    ${table_locator}    ${dict_row}        
-    &{header_dict}    Create Dictionary    
-    ${header_count}    Get Element Count    ${table_locator}/thead/tr/th
-    FOR    ${header_index}    IN RANGE    1    ${header_count}+1    # +1 because ending range is exclusive
-        ${header_text}    Get Text    ${table_locator}/thead/tr/th[${header_index}]
-        Set To Dictionary    ${header_dict}    ${header_text}=${header_index}
+
+Get Table Headers
+    [Documentation]    Header Text: Index pairs. Returns the generated dictionary.
+    [Arguments]    ${i_table_locator}
+    &{l_header_dict}    Create Dictionary    
+    ${l_header_count}    Get Element Count    ${i_table_locator}/thead/tr/th
+    FOR    ${l_header_index}    IN RANGE    1    ${l_header_count}+1    # +1 because ending range is exclusive
+        ${l_header_text}    Get Text    ${i_table_locator}/thead/tr/th[${l_header_index}]
+        Set To Dictionary    ${l_header_dict}    ${l_header_text}=${l_header_index}
     END
+    [Return]    ${l_header_dict}    
+        
+Find Searched Row In The Table
+    [Arguments]    ${i_table_locator}    ${i_dict_row}        
+    &{l_header_dict}    Get Table Headers    ${i_table_locator}    
+    ${l_search_row_keys}    Get Dictionary Keys    ${i_dict_row}
+    ${l_search_row_items}    Get Dictionary Values    ${i_dict_row}    
+    ${l_search_row_key1}    ${l_search_row_item1}    Set Variable    @{l_search_row_keys}[0]    @{l_search_row_items}[0]    
     
-    ${search_row_keys}    Get Dictionary Keys    ${dict_row}
-    ${search_row_items}    Get Dictionary Values    ${dict_row}
-    ${is_first_item}    ${first_row_key}    ${first_row_item}    Set Variable    ${True}    ${EMPTY}    ${EMPTY}
-    FOR    ${key}    ${item}    IN ZIP    ${search_row_keys}    ${search_row_items}
-        ${first_row_key}    Set Variable If    ${is_first_item}==${True}    ${key}    ${first_row_key}    
-        ${first_row_item}    Set Variable If    ${is_first_item}==${True}    ${item}    ${first_row_item}
-        Dictionary Should Contain Key    ${header_dict}    ${key}    The header you are searching for does not exist in the table.
-        ${is_first_item}    Set Variable    ${False}
+    FOR    ${key}    IN    @{l_search_row_keys}
+        Dictionary Should Contain Key    ${l_header_dict}    ${key}    The header you are searching for does not exist in the table.
     END
                  
-    ${header_index}    Set Variable    &{header_dict}[${first_row_key}]
-    ${row_count}    Get Element Count    ${table_locator}/tbody/tr
-    ${row_found}    Set Variable    ${False}     
-    FOR    ${row_index}    IN RANGE    2    ${row_count}+2
-        ${row_item}    Get Table Cell    ${table_locator}    ${row_index}    ${header_index}
-        ${row_found}    Run Keyword If    '${row_item}'=='${first_row_item}'    Handle Row    ${table_locator}    ${row_index}    ${header_dict}    ${search_row_keys}    ${search_row_items}
+    ${l_header_index}    Set Variable    &{l_header_dict}[${l_search_row_key1}]
+    ${l_row_count}    Get Element Count    ${i_table_locator}/tbody/tr
+    ${l_row_found}    Set Variable    ${False}   
+    FOR    ${row_index}    IN RANGE    2    ${l_row_count}+2
+        ${row_item}    Get Table Cell    ${i_table_locator}    ${row_index}    ${l_header_index}
+        ${l_row_found}    Run Keyword If    '${row_item}'=='${l_search_row_item1}'    Check Current Row    ${i_table_locator}    ${row_index}    ${l_header_dict}    ${l_search_row_keys}    ${l_search_row_items}
     ...    ELSE    Set Variable    ${False}
-        Exit For Loop If    ${row_found}==${True}  
+        Exit For Loop If    ${l_row_found}==${True}  
     END
-    Run Keyword If    ${row_found}==${False}    Fail    Row not found
+    Run Keyword If    ${l_row_found}==${False}    Fail    Row not found
     ${index}    Set Variable    ${row_index-1}     
-    # Click Element    ${table_locator}/tbody/tr[${index}]/td[1]/a
     [Return]    ${index}
 
-Handle Row
+Check Current Row
     [Arguments]    ${locator}    ${row_index}    ${header_dict}    ${search_row_keys}    ${search_row_items}
     ${row_found}    Set Variable    ${False}
     FOR    ${row_key}    ${row_item}	IN ZIP    ${search_row_keys}    ${search_row_items}

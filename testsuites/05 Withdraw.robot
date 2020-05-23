@@ -31,20 +31,12 @@ Positive Scenario - All Withdraw Fields Populated
 
     # Client Initial Values
     GoTo Client List Page 
-    &{row}    Create Dictionary    First Name:=Yuffie    Last Name:=Kisaragi
-    ${row_index}    Table Keyword    ${Page.Common.ObjectListTable.Tbl}    ${row}
-    &{header_dict}    Create Dictionary    
-    ${header_count}    Get Element Count    ${Page.Common.ObjectListTable.Tbl}/thead/tr/th
-    FOR    ${header_index}    IN RANGE    1    ${header_count}+1    # +1 because ending range is exclusive
-        ${header_text}    Get Text    ${Page.Common.ObjectListTable.Tbl}/thead/tr/th[${header_index}]
-        Set To Dictionary    ${header_dict}    ${header_text}=${header_index}
-    END
-    ${col_index}    Set Variable    &{header_dict}[Balance:]  
-    ${initial_balance}    Get Table Cell    ${Page.Common.ObjectListTable.Tbl}    ${row_index+1}    ${col_index}  
-    ${initial_balance}    Convert To Number    ${initial_balance}
+    &{l_client_dict}    Create Dictionary    First Name:=Yuffie    Last Name:=Kisaragi
+    ${initial_balance}    Get Client Balance    ${l_client_dict}
 
     # Withdraw Transaction
-    ${l_trx_ref}    Create Withdraw Transaction    Yuffie Kisaragi    100
+    ${l_with_amt}    Set Variable    100
+    ${l_trx_ref}    Create Withdraw Transaction    Yuffie Kisaragi    ${l_with_amt}
     Set Suite Variable    ${s_withdraw_trx_ref}    ${l_trx_ref}
        
     @{args}    Create List    //h1[contains(text(),'Withdraw Transaction List')]
@@ -57,7 +49,7 @@ Positive Scenario - All Withdraw Fields Populated
     ${l_post_with_amt}    Get Dashboard Aggregate Withdraw Value  
     ${l_post_number_of_trx}    Get Dashboard Number Of Transactions Value
 
-    @{args}    Create List    ${l_initial_with_amt+100}    ${l_post_with_amt}    
+    @{args}    Create List    ${l_initial_with_amt+${l_with_amt}}    ${l_post_with_amt}    
     VERIFY    Should Be Equal    ${args}
     ...    i_pass_message=Dashboard Aggregate Withdraw Amount updated correctly.
     ...    i_fail_message=Dashboard Aggregate Withdraw Amount not updated correctly.       
@@ -69,10 +61,9 @@ Positive Scenario - All Withdraw Fields Populated
 
     # Client Post Values  
     GoTo Client List Page
-    ${post_balance}    Get Table Cell    ${Page.Common.ObjectListTable.Tbl}    ${row_index+1}    ${col_index}
-    ${post_balance}    Convert To Number    ${post_balance}
+    ${post_balance}    Get Client Balance    ${l_client_dict}
 
-    @{args}    Create List    ${initial_balance-100}    ${post_balance}
+    @{args}    Create List    ${initial_balance-${l_with_amt}}    ${post_balance}
     VERIFY    Should Be Equal    ${args}
     ...    i_pass_message=Client balance updated correctly.
     ...    i_fail_message=Client balance not updated correctly.       
