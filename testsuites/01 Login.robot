@@ -4,7 +4,7 @@ Suite Setup    GoTo Cloud Bank Page
 Suite Teardown    Logout
 
 *** Test Cases ***
-Negative Scenario - Empty Username and Password
+[Negative Scenario] Login - All Fields Are Empty
     Form Login Populate Fields    ${EMPTY}    ${EMPTY}
     Click Button    ${Page.Login.Login.Btn}
     
@@ -15,7 +15,7 @@ Negative Scenario - Empty Username and Password
     ...    i_pass_message=Expected error message was displayed.
     ...    i_fail_message=Expected error message not displayed. 
 
-Negative Scenario - Empty Username
+[Negative Scenario] Login - Username Field Empty
     Form Login Populate Fields    ${EMPTY}    password
     Click Button    ${Page.Login.Login.Btn}
 
@@ -26,7 +26,7 @@ Negative Scenario - Empty Username
     ...    i_pass_message=Expected error message was displayed.
     ...    i_fail_message=Expected error message not displayed.
 
-Negative Scenario - Empty Password
+[Negative Scenario] Login - Password Field Empty
     Form Login Populate Fields    username    ${EMPTY}
     Click Button    ${Page.Login.Login.Btn}
 
@@ -37,7 +37,7 @@ Negative Scenario - Empty Password
     ...    i_pass_message=Expected error message was displayed.
     ...    i_fail_message=Expected error message not displayed.
 
-Negative Scenario - Invalid Username and Password
+[Negative Scenario] Login - Invalid User
     Form Login Populate Fields    does_not_exist    password@xxxx
     Click Button    ${Page.Login.Login.Btn}
 
@@ -46,7 +46,7 @@ Negative Scenario - Invalid Username and Password
     ...    i_pass_message=Expected error message was displayed.
     ...    i_fail_message=Expected error message not displayed.    
             
-Negative Scenario - Valid Username and Wrong Password
+[Negative Scenario] Login - Valid User And Wrong Password
     Form Login Populate Fields    tester    password@xxxx
     Click Button    ${Page.Login.Login.Btn}
 
@@ -55,8 +55,8 @@ Negative Scenario - Valid Username and Wrong Password
     ...    i_pass_message=Expected error message was displayed.
     ...    i_fail_message=Expected error message not displayed. 
         
-Positive Scenario - Valid Username and Correct Password
-    Form Login Populate Fields    tester    password@1234
+[Positive Scenario] Login - Valid User And Correct Password
+    Form Login Populate Fields    ${DEFAULT_USERNAME}    ${DEFAULT_PASSWORD}
     Click Button    ${Page.Login.Login.Btn}
 
     @{args}    Create List    About the App        

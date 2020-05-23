@@ -1,6 +1,6 @@
 *** Settings ***
 Resource    ../resources/keywords.robot
-Suite Setup    GoTo Cloud Bank Page and Login    tester    password@1234         
+Suite Setup    GoTo Cloud Bank Page and Login    ${DEFAULT_USERNAME}    ${DEFAULT_PASSWORD}        
 Suite Teardown    Logout
 Test Setup    Click Element    ${Sidebar.CloudBank.Logo.Link}    
 
@@ -8,7 +8,7 @@ Test Setup    Click Element    ${Sidebar.CloudBank.Logo.Link}
 ${s_withdraw_trx_ref}
 
 *** Test Cases ***
-Negative Scenario - Blank Withdraw Transaction Fields
+[Negative Scenario] Withdraw Transaction - All Fields Are Empty
     Create Withdraw Transaction    ---------    ${EMPTY}
     
     ${l_validation_message}    Get Validation Message    ${Form.WithdrawTransaction.Client.Cbo}    
@@ -23,7 +23,7 @@ Negative Scenario - Blank Withdraw Transaction Fields
     ...    i_pass_message=User remained in the Withdraw Transaction page.
     ...    i_fail_message=User was transitioned to a different page. 
 
-Positive Scenario - All Withdraw Fields Populated
+[Positive Scenario] Withdraw Transaction - All Fields Are Populated Correctly
     # Dashboard Initial Values
     GoTo Dashboard
     ${l_initial_with_amt}    Get Dashboard Aggregate Withdraw Value  
@@ -68,7 +68,7 @@ Positive Scenario - All Withdraw Fields Populated
     ...    i_pass_message=Client balance updated correctly.
     ...    i_fail_message=Client balance not updated correctly.       
     
-Positive Scenario - View Withdraw Transaction
+[Positive Scenario] Withdraw Transaction - View
     &{l_row}    Create Dictionary    Trx ref:=${s_withdraw_trx_ref}
     View Withdraw Transaction    ${l_row}    i_client=Yuffie Kisaragi    i_amt=100.0
     

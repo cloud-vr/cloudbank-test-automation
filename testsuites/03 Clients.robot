@@ -1,6 +1,6 @@
 *** Settings ***
 Resource    ../resources/keywords.robot
-Suite Setup    GoTo Cloud Bank Page and Login    tester    password@1234         
+Suite Setup    GoTo Cloud Bank Page and Login    ${DEFAULT_USERNAME}    ${DEFAULT_PASSWORD}        
 Suite Teardown    Logout
 Test Setup    Click Element    ${Sidebar.CloudBank.Logo.Link}    
 
@@ -8,7 +8,7 @@ Test Setup    Click Element    ${Sidebar.CloudBank.Logo.Link}
 ${errors}    /..//*[@class='errorlist']/li
 
 *** Test Cases ***
-Negative Scenario - Blank Client Fields
+[Negative Scenario] Client - All Fields Are Empty
     Create Client    ${EMPTY}    ${EMPTY}    ${EMPTY}    ${EMPTY}    ${EMPTY}
 
     ${l_validation_message}    Get Validation Message    ${Form.Client.FirstName.Txt}
@@ -23,7 +23,7 @@ Negative Scenario - Blank Client Fields
     ...    i_pass_message=User remained in the Create Client page.
     ...    i_fail_message=User was transitioned to a different page.      
 
-Positive Scenario - All Field Populated    
+[Positive Scenario] Client - All Fields Are Populated Correctly 
     Create Client    Yuffie    Kisaragi    Wutai    4    yuffie@kisaragi.com
     
     @{args}    Create List    //h1[contains(text(),'Client List')]        
@@ -31,7 +31,7 @@ Positive Scenario - All Field Populated
     ...    i_pass_message=User was transitioned to the Client List page. 
     ...    i_fail_message=User was not transitioned to the Client List page. 
     
-Negative Scenario - Existing Client
+[Negative Scenario] Client - Existing Client
     Create Client    Yuffie    Kisaragi    Wutai    4    yuffie@kisaragi.com
     
     @{args}    Create List    ${Form.Client.EmailAddress.Txt}${errors}    Client with this Email Address already exists.
@@ -39,21 +39,21 @@ Negative Scenario - Existing Client
     ...    i_pass_message=Expected error message was displayed.
     ...    i_fail_message=Expected error message not displayed.          
     
-Positive Scenario - View Client
+[Positive Scenario] Client - View
     &{l_row}    Create Dictionary
     ...    First Name:=Yuffie
     ...    Last Name:=Kisaragi
     ...    Email Address:=yuffie@kisaragi.com
     View Client    ${l_row}    i_fname=Yuffie    i_lname=Kisaragi    i_addr=Wutai    i_mobile=4    i_email_addr=yuffie@kisaragi.com        
                  
-Positive Scenario - Update Client
+[Positive Scenario] Client - Update
     &{l_row}    Create Dictionary
     ...    First Name:=Yuffie
     ...    Last Name:=Kisaragi
     ...    Email Address:=yuffie@kisaragi.com                
     Update Client    ${l_row}    i_fname=Yuffie    i_lname=Kisaragi    i_mobile=69    i_email_addr=yuffie@kisaragi.com  
     
-Positive Scenario - Delete Client
+[Positive Scenario] Client - Delete
     &{l_row}    Create Dictionary
     ...    First Name:=Yuffie
     ...    Last Name:=Kisaragi

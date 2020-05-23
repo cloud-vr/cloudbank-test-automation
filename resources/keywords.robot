@@ -3,10 +3,7 @@ Library    SeleniumLibrary
 Library    String      
 Library    Collections          
 Resource    pageobjects.robot
-
-*** Variables ***
-${URL}    http://localhost:8000/bank/login
-${BROWSER}    chrome
+Resource    ../config/config.robot
 
 *** Keywords ***
 GoTo Cloud Bank Page

@@ -1,6 +1,6 @@
 *** Settings ***
 Resource    ../resources/keywords.robot
-Suite Setup    GoTo Cloud Bank Page and Login    tester    password@1234         
+Suite Setup    GoTo Cloud Bank Page and Login    ${DEFAULT_USERNAME}    ${DEFAULT_PASSWORD}        
 Suite Teardown    Logout
 Test Setup    Click Element    ${Sidebar.CloudBank.Logo.Link}    
 
@@ -8,7 +8,7 @@ Test Setup    Click Element    ${Sidebar.CloudBank.Logo.Link}
 ${s_deposit_trx_ref}
 
 *** Test Cases ***
-Negative Scenario - Blank Deposit Transaction Fields
+[Negative Scenario] Deposit Transaction - All Fields Are Empty
     Create Deposit Transaction    ---------    ${EMPTY}
     
     ${l_validation_message}    Get Validation Message    ${Form.DepositTransaction.Client.Cbo}    
@@ -23,7 +23,7 @@ Negative Scenario - Blank Deposit Transaction Fields
     ...    i_pass_message=User remained in the Deposit Transaction page.
     ...    i_fail_message=User was transitioned to a different page. 
 
-Positive Scenario - All Deposit Fields Populated
+[Positive Scenario] Deposit Transaction - All Fields Are Populated Correctly
     # Dashboard Initial Values
     GoTo Dashboard
     ${l_initial_dep_amt}    Get Dashboard Aggregate Deposit Value  
@@ -68,6 +68,7 @@ Positive Scenario - All Deposit Fields Populated
     ...    i_pass_message=Client balance updated correctly.
     ...    i_fail_message=Client balance not updated correctly.       
     
-Positive Scenario - View Deposit Transaction
+[Positive Scenario] Deposit Transaction - View
     &{l_row}    Create Dictionary    Trx ref:=${s_deposit_trx_ref}
     View Deposit Transaction    ${l_row}    i_client=Yuffie Kisaragi    i_amt=1000.0
+    
