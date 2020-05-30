@@ -1,0 +1,24 @@
+{
+	"info": {
+		"testCaseName": "03 - Negative Scenario - System User - Password Confirmation Empty",
+		"templateName": "System User Create With Field Error Template"
+	},
+	"username": {
+		"input": "tester2",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"password": {
+		"input": "password@1234",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"passwordConfirmation": {
+		"input": "",
+		"verify": "",
+		"validationMessage": "Please fill out this field.",
+		"fieldError": ""
+	}
+}

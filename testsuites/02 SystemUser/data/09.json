@@ -1,0 +1,24 @@
+{
+	"info": {
+		"testCaseName": "09 - Positive Scenario - System User - Valid Username and Password",
+		"templateName": "System User Create Template"
+	},
+	"username": {
+		"input": "tester2",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"password": {
+		"input": "password@1234",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"passwordConfirmation": {
+		"input": "password@1234",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	}
+}

@@ -1,0 +1,21 @@
+{
+	"info": {
+		"testCaseName": "",
+		"templateName": ""
+	},
+	"client": {
+		"input": "",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"withAmount": {
+		"input": "",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"afterClickConfirm": {
+		"expectedElementInPage": ""
+	}
+}

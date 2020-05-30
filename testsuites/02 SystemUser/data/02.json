@@ -1,0 +1,24 @@
+{
+	"info": {
+		"testCaseName": "02 - Negative Scenario - System User - All Fields Are Empty",
+		"templateName": "System User Create With Field Error Template"
+	},
+	"username": {
+		"input": "",
+		"verify": "",
+		"validationMessage": "Please fill out this field.",
+		"fieldError": ""
+	},
+	"password": {
+		"input": "",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"passwordConfirmation": {
+		"input": "",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	}
+}

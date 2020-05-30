@@ -1,0 +1,24 @@
+{
+	"info": {
+		"testCaseName": "",
+		"templateName": ""
+	},
+	"username": {
+		"input": "",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"password": {
+		"input": "",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"passwordConfirmation": {
+		"input": "",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	}
+}

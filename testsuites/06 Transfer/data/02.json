@@ -1,0 +1,51 @@
+{
+	"info": {
+		"testCaseName": "02 - Positive Scenario - Transfer Transaction - All Fields Are Populated Correctly",
+		"templateName": "Transfer Transaction Create Template"
+	},
+	"fromClientFname": {
+		"input": "Yuffie",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"fromClientLname": {
+		"input": "Kisaragi",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},	
+	"fromClient": {
+		"input": "Yuffie Kisaragi",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"toClientFname": {
+		"input": "Cloud",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"toClientLname": {
+		"input": "Strife",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},		
+	"toClient": {
+		"input": "Cloud Strife",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},	
+	"transAmount": {
+		"input": "100",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"afterClickConfirm": {
+		"expectedElementInPage": "//h1[text()='Transfer Transaction List']"
+	}
+}

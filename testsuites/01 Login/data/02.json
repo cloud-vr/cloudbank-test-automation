@@ -1,0 +1,15 @@
+{
+	"info": {
+		"testCaseName": "02 - Negative Scenario - Login - Username Field Empty",
+		"templateName": "Login Template"
+	},
+	"username": {
+		"input": "",
+		"validationMessage": "Please fill out this field."
+	},
+	"password": {
+		"input": "password",
+		"validationMessage": ""
+	},
+	"expectedTextInPage": ""
+}

@@ -1,0 +1,21 @@
+{
+	"info": {
+		"testCaseName": "03 - Positive Scenario - Deposit Transaction - View",
+		"templateName": "Deposit Transaction View Template"
+	},
+	"client": {
+		"input": "",
+		"verify": "Yuffie Kisaragi",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"depAmount": {
+		"input": "",
+		"verify": "1000.0",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"afterClickConfirm": {
+		"expectedElementInPage": "//h1[contains(text(),'Deposit Transaction List')]"
+	}
+}

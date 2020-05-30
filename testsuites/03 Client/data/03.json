@@ -1,0 +1,39 @@
+{
+	"info": {
+		"testCaseName": "03 - Negative Scenario - Client - Existing Client",
+		"templateName": "Client Create Template"
+	},
+	"fname": {
+		"input": "Yuffie",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"lname": {
+		"input": "Kisaragi",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"addr": {
+		"input": "Wutai",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"mobile": {
+		"input": "4",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"emailAddr": {
+		"input": "yuffie@kisaragi.com",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": "Client with this Email Address already exists."
+	},
+	"afterClickConfirm": {
+		"expectedElementInPage": "//h1[contains(text(),'Create Client')]"
+	}
+}

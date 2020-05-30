@@ -1,0 +1,12 @@
+{
+	"info": {
+		"testCaseName": "13 - Positive Scenario - System User - Delete",
+		"templateName": "System User Delete Template"
+	},
+	"username": {
+		"input": "tester2_updated",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	}
+}

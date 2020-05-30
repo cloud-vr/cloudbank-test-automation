@@ -1,0 +1,12 @@
+{
+	"info": {
+		"testCaseName": "11 - Positive Scenario - System User - View",
+		"templateName": "System User View Template"
+	},
+	"username": {
+		"input": "",
+		"verify": "tester2",
+		"validationMessage": "",
+		"fieldError": ""
+	}
+}

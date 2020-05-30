@@ -1,0 +1,21 @@
+{
+	"info": {
+		"testCaseName": "01 - Negative Scenario - Deposit Transaction - All Fields Are Empty",
+		"templateName": "Deposit Transaction Create With Field Error Template"
+	},
+	"client": {
+		"input": "---------",
+		"verify": "",
+		"validationMessage": "Please select an item in the list.",
+		"fieldError": ""
+	},
+	"depAmount": {
+		"input": "",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"afterClickConfirm": {
+		"expectedElementInPage": "//h1[contains(text(),'Deposit Transaction')]"
+	}
+}

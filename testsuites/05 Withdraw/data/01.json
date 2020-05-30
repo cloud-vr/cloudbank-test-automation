@@ -1,0 +1,21 @@
+{
+	"info": {
+		"testCaseName": "01 - Negative Scenario - Withdraw Transaction - All Fields Are Empty",
+		"templateName": ""
+	},
+	"client": {
+		"input": "---------",
+		"verify": "",
+		"validationMessage": "Please select an item in the list.",
+		"fieldError": ""
+	},
+	"withAmount": {
+		"input": "",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"afterClickConfirm": {
+		"expectedElementInPage": "//h1[text()='Withdraw Transaction']"
+	}
+}

@@ -1,7 +1,8 @@
 *** Settings ***
 Library    SeleniumLibrary
 Library    String      
-Library    Collections          
+Library    Collections 
+Library    OperatingSystem             
 Resource    pageobjects.robot
 Resource    ../config/config.robot
 
@@ -17,6 +18,7 @@ Form Login Populate Fields
     
 GoTo Cloud Bank Page and Login
     [Arguments]    ${i_username}    ${i_password}
+    Set Selenium Implicit Wait    30 seconds
     GoTo Cloud Bank Page
     Form Login Populate Fields    ${i_username}    ${i_password}
     Click Button    ${Page.Login.Login.Btn}
@@ -401,6 +403,12 @@ Get Validation Message
     ${validationMessage}    Get Element Attribute    ${l_element}    validationMessage
     [Return]    ${validationMessage}
 
+Load Json Data Into Dictionary
+    [Arguments]    ${i_data}
+    ${l_file}    Get File    ${i_data}
+    ${l_data}    Evaluate    json.loads('''${l_file}''')    modules=json
+    [Return]    ${l_data}
+
 VERIFY
     [Arguments]    ${i_assertion_keyword}    ${i_args}    ${i_assertion_type}=1    ${i_pass_message}=${EMPTY}    ${i_fail_message}=${EMPTY}
     ${l_test_status}    ${l_test_message}    Run Keyword And Ignore Error    ${i_assertion_keyword}    @{i_args}  
@@ -416,4 +424,13 @@ VERIFY
     Run Keyword If    ${i_assertion_type}==1    Fail    ${i_fail_message}    
     ...    ELSE    Run Keyword And Continue On Failure    Fail    ${i_fail_message}       
     [Return]    ${l_test_status}
+
+VERIFY FIELD VALIDATION
+    [Arguments]    ${i_field_locator}    ${i_expected_validation_message}    
+    ${l_validation_message}    Get Validation Message    ${i_field_locator}
     
+    @{args}    Create List    ${l_validation_message}    ${i_expected_validation_message}
+    VERIFY    Should Be Equal    ${args}
+    ...    i_pass_message=Validation message "${i_expected_validation_message}" was displayed.
+    ...    i_fail_message=Validation message "${i_expected_validation_message}" was not displayed.
+   

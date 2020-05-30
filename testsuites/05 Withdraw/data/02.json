@@ -1,0 +1,27 @@
+{
+	"info": {
+		"testCaseName": "02 - Positive Scenario - Withdraw Transaction - All Fields Are Populated Correctly",
+		"templateName": "Withdraw Transaction Create Template"
+	},
+	"clientFname": {
+		"input": "Yuffie"
+	},	
+	"clientLname": {
+		"input": "Kisaragi"
+	},
+	"client": {
+		"input": "Yuffie Kisaragi",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"withAmount": {
+		"input": "100",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"afterClickConfirm": {
+		"expectedElementInPage": "//h1[text()='Withdraw Transaction List']"
+	}
+}

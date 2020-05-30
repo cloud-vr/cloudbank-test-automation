@@ -1,0 +1,24 @@
+{
+	"info": {
+		"testCaseName": "05 - Negative Scenario - System User - Password Less Than 8 Characters",
+		"templateName": "System User Create With Field Error Template"
+	},
+	"username": {
+		"input": "testeruser",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"password": {
+		"input": "qwertyu",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"passwordConfirmation": {
+		"input": "qwertyu",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": "This password is too short. It must contain at least 8 characters."
+	}
+}

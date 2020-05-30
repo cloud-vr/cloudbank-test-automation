@@ -1,0 +1,24 @@
+{
+	"info": {
+		"testCaseName": "04 - Negative Scenario - System User - Username Is Too Similar To Password",
+		"templateName": "System User Create With Field Error Template"
+	},
+	"username": {
+		"input": "testuser",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"password": {
+		"input": "testuser",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"passwordConfirmation": {
+		"input": "testuser",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": "The password is too similar to the username."
+	}
+}
