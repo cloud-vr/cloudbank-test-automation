@@ -1,0 +1,24 @@
+{
+	"info": {
+		"testCaseName": "10 - Negative Scenario - System User - Existing User",
+		"templateName": "System User Create With Field Error Template"
+	},
+	"username": {
+		"input": "tester2",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": "A user with that username already exists."
+	},
+	"password": {
+		"input": "password@1234",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"passwordConfirmation": {
+		"input": "password@1234",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	}
+}

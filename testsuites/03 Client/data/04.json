@@ -1,0 +1,39 @@
+{
+	"info": {
+		"testCaseName": "04 - Positive Scenario - Client - View",
+		"templateName": "Client View Template"
+	},
+	"fname": {
+		"input": "Yuffie",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"lname": {
+		"input": "Kisaragi",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"addr": {
+		"input": "Wutai",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"mobile": {
+		"input": "4",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"emailAddr": {
+		"input": "yuffie@kisaragi.com",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"afterClickConfirm": {
+		"expectedElementInPage": "//h1[contains(text(),'Client List')]"
+	}
+}

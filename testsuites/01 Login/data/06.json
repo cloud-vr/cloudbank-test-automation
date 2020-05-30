@@ -1,0 +1,15 @@
+{
+	"info": {
+		"testCaseName": "06 - Positive Scenario - Login - Valid User And Correct Password",
+		"templateName": "Login Template"
+	},
+	"username": {
+		"input": "tester",
+		"validationMessage": ""
+	},
+	"password": {
+		"input": "password@1234",
+		"validationMessage": ""
+	},
+	"expectedTextInPage": "About the App"
+}

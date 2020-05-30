@@ -1,0 +1,15 @@
+{
+	"info": {
+		"testCaseName": "",
+		"templateName": ""
+	},
+	"username": {
+		"input": "",
+		"validationMessage": ""
+	},
+	"password": {
+		"input": "",
+		"validationMessage": ""
+	},
+	"expectedTextInPage": ""
+}

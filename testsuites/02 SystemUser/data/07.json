@@ -1,0 +1,24 @@
+{
+	"info": {
+		"testCaseName": "07 - Negative Scenario - System User - Password Is Entirely Numeric",
+		"templateName": "System User Create With Field Error Template"
+	},
+	"username": {
+		"input": "testeruser",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"password": {
+		"input": "00666066600",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"passwordConfirmation": {
+		"input": "00666066600",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": "This password is entirely numeric."
+	}
+}

@@ -1,0 +1,15 @@
+{
+	"info": {
+		"testCaseName": "04 - Negative Scenario - Login - Invalid User",
+		"templateName": "Login Template"
+	},
+	"username": {
+		"input": "does_not_exist",
+		"validationMessage": ""
+	},
+	"password": {
+		"input": "password@xxxx",
+		"validationMessage": ""
+	},
+	"expectedTextInPage": "Please enter a correct username and password. Note that both fields may be case-sensitive."
+}

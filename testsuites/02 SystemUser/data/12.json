@@ -1,0 +1,24 @@
+{
+	"info": {
+		"testCaseName": "12 - Positive Scenario - System User - Update",
+		"templateName": "System User Update Template"
+	},
+	"username": {
+		"input": "tester2",
+		"verify": "tester2_updated",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"password": {
+		"input": "password@1234",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"passwordConfirmation": {
+		"input": "password@1234",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	}
+}

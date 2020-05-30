@@ -1,0 +1,21 @@
+{
+	"info": {
+		"testCaseName": "03 - Positive Scenario - Withdraw Transaction - View",
+		"templateName": "Withdraw Transaction Create Template"
+	},
+	"client": {
+		"input": "",
+		"verify": "Yuffie Kisaragi",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"withAmount": {
+		"input": "",
+		"verify": "100.0",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"afterClickConfirm": {
+		"expectedElementInPage": "//h1[text()='Withdraw Transaction List']"
+	}
+}

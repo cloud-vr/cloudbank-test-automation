@@ -1,0 +1,27 @@
+{
+	"info": {
+		"testCaseName": "03 - Positive Scenario - Transfer Transaction - View",
+		"templateName": "Transfer Transaction View Template"
+	},
+	"fromClient": {
+		"input": "",
+		"verify": "Yuffie Kisaragi",
+		"validationMessage": "",
+		"fieldError": ""
+	},		
+	"toClient": {
+		"input": "",
+		"verify": "Cloud Strife",
+		"validationMessage": "",
+		"fieldError": ""
+	},	
+	"transAmount": {
+		"input": "",
+		"verify": "100.0",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"afterClickConfirm": {
+		"expectedElementInPage": "//h1[text()='Transfer Transaction List']"
+	}
+}

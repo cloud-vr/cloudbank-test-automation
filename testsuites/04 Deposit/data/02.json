@@ -1,0 +1,27 @@
+{
+	"info": {
+		"testCaseName": "02 - Positive Scenario - Deposit Transaction - All Fields Are Populated Correctly",
+		"templateName": "Deposit Transaction Create Template"
+	},
+	"clientFname": {
+		"input": "Yuffie"
+	},
+	"clientLname": {
+		"input": "Kisaragi"
+	},
+	"client": {
+		"input": "Yuffie Kisaragi",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"depAmount": {
+		"input": "1000",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"afterClickConfirm": {
+		"expectedElementInPage": "//h1[contains(text(),'Deposit Transaction List')]"
+	}
+}

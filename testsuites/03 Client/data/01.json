@@ -1,0 +1,39 @@
+{
+	"info": {
+		"testCaseName": "01 - Negative Scenario - Client - All Fields Are Empty",
+		"templateName": "Client Create Template"
+	},
+	"fname": {
+		"input": "",
+		"verify": "",
+		"validationMessage": "Please fill out this field.",
+		"fieldError": ""
+	},
+	"lname": {
+		"input": "",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"addr": {
+		"input": "",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"mobile": {
+		"input": "",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"emailAddr": {
+		"input": "",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"afterClickConfirm": {
+		"expectedElementInPage": "//h1[contains(text(),'Create Client')]"
+	}
+}

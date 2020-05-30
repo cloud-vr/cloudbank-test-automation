@@ -1,0 +1,27 @@
+{
+	"info": {
+		"testCaseName": "01 - Negative Scenario - Transfer Transaction - All Fields Are Empty",
+		"templateName": "Transfer Transaction Create With Field Error Template"
+	},
+	"fromClient": {
+		"input": "---------",
+		"verify": "",
+		"validationMessage": "Please select an item in the list.",
+		"fieldError": ""
+	},		
+	"toClient": {
+		"input": "---------",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},	
+	"transAmount": {
+		"input": "",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"afterClickConfirm": {
+		"expectedElementInPage": "//h1[text()='Transfer Transaction']"
+	}
+}

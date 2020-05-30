@@ -1,0 +1,39 @@
+{
+	"info": {
+		"testCaseName": "05 - Positive Scenario - Client - Update",
+		"templateName": "Client Update Template"
+	},
+	"fname": {
+		"oldVal": "Yuffie",
+		"newVal": "Yuffie",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"lname": {
+		"oldVal": "Kisaragi",
+		"newVal": "Kisaragi",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"addr": {
+		"oldVal": "Wutai",
+		"newVal": "Wutai",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"mobile": {
+		"oldVal": "4",
+		"newVal": "666",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"emailAddr": {
+		"oldVal": "yuffie@kisaragi.com",
+		"newVal": "yuffie@kisaragi.com",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"afterClickConfirm": {
+		"expectedElementInPage": "//h1[contains(text(),'Client List')]"
+	}
+}

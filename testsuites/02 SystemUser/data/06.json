@@ -1,0 +1,24 @@
+{
+	"info": {
+		"testCaseName": "06 - Negative Scenario - System User - Password Is Too Common",
+		"templateName": "System User Create With Field Error Template"
+	},
+	"username": {
+		"input": "testeruser",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"password": {
+		"input": "password",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": ""
+	},
+	"passwordConfirmation": {
+		"input": "password",
+		"verify": "",
+		"validationMessage": "",
+		"fieldError": "This password is too common."
+	}
+}
